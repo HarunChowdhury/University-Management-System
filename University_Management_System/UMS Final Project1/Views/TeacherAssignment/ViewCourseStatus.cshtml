@@ -1,0 +1,59 @@
+﻿@model IEnumerable<UMS_Final_Project1.Models.TeacherAssignment>
+
+@{
+    ViewBag.Title = "ViewCourseStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewCourseStatus</h2>
+
+<style type="text/css">
+    #DepartmentId1{
+        margin: 0 auto;
+        margin-bottom : 20px;
+
+    }
+
+</style>
+
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        //  alert("here");
+
+        $("#DepartmentId1").addClass("form-control");
+
+        $("#DepartmentId1").on("change", function () {
+            var id = $("#DepartmentId1").val();
+//            alert("asdf" + id);
+
+          //  $("div #section-data").html("This is a text");
+            $("div #section-data").load("/TeacherAssignment/FilteredViewCourseStatus", { departmentId: id });
+        });
+    });
+
+
+</script>
+
+
+
+@using (Html.BeginForm())
+{
+    
+ @*@Html.DropDownListFor(model => model.DapartmentId
+                , (IEnumerable<SelectListItem>)ViewBag.DepartmentId1
+                ,String.Empty
+                , new { @class = "drop-downDptId" })*@
+    
+                   
+    @Html.DropDownList("DepartmentId1", string.Empty)
+}
+
+
+<div id="section-data">
+    @Html.Partial("~/Views/TeacherAssignPartial/_FilterCourseStatus.cshtml", Model);
+</div>

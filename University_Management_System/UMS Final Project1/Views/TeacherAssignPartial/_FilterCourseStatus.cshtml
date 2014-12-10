@@ -1,0 +1,34 @@
+﻿@model IEnumerable<UMS_Final_Project1.Models.TeacherAssignment>
+@using System.Linq;
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<table class="table table-bordered">
+<tr>
+    <th>Code</th>
+    <th>Name/Title</th>
+    <th>Semester</th>
+    <th>Assigned To</th>
+    @*<th>Department Name</th>*@
+</tr>
+
+    @*@if (Model != null) {
+    <td>NUll</td>
+    }
+    else {*@ 
+        @foreach(var item in Model)
+        {
+         <tr>
+             <td>@Html.DisplayFor(m => item.aCourse.Code)</td>
+             <td>@Html.DisplayFor(m => item.aCourse.Name)</td>
+             <td>@Html.DisplayFor(m => item.aCourse.Semesters.Name)</td>
+             <td>@Html.DisplayFor(m => item.aTeacher.Name)</td>
+             @*<td>@Html.DisplayFor(m => item.Department.DepartmentName)</td>*@
+
+         </tr>
+               
+        }
+    
+
+</table>

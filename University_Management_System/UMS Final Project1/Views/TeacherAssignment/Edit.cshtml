@@ -1,0 +1,91 @@
+﻿@model UMS_Final_Project1.Models.TeacherAssignment
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>TeacherAssignment</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditToBeTaken, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreditToBeTaken)
+                @Html.ValidationMessageFor(model => model.CreditToBeTaken)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RemainingCredit, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RemainingCredit)
+                @Html.ValidationMessageFor(model => model.RemainingCredit)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, "TeacherId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TeacherId", String.Empty)
+                @Html.ValidationMessageFor(model => model.TeacherId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DapartmentId, "DapartmentId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DapartmentId", String.Empty)
+                @Html.ValidationMessageFor(model => model.DapartmentId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "CourseId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CourseId", String.Empty)
+                @Html.ValidationMessageFor(model => model.CourseId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Credit, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Credit)
+                @Html.ValidationMessageFor(model => model.Credit)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

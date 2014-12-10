@@ -1,0 +1,35 @@
+﻿@model IEnumerable<UMS_Final_Project1.Models.ViewResult>
+@{
+    Layout = null;
+}
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Student Information Report</title>
+</head>
+<body>
+ 
+    <table class="table table-bordered">
+        <tr>
+            <th>Code</th>
+            <th>Name/Title</th>
+            <th>Grade</th>           
+           
+        </tr>
+     
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => item.aCourse.Code)</td>
+                <td>@Html.DisplayFor(m => item.aCourse.Name)</td>
+                  <td>@Html.DisplayFor(m=>item.aGradeLetter.GradeName)</td>                
+            </tr>
+
+        }
+        </table>
+</body>
+</html>

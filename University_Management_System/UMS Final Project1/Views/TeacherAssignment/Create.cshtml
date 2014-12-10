@@ -1,0 +1,346 @@
+﻿@model UMS_Final_Project1.Models.TeacherAssignment
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        var s1 = new Array();
+
+        var selectHtml = $('#TeacherId').text();
+
+        s1 = $.makeArray(selectHtml);
+
+        var s2 = $('#TeacherId option').toArray();
+
+
+        var tagOption = [];
+        var tagOptionattr = [];
+        $('#CourseId option').each(function (index, element) {
+            tagOptionattr.push($(this).attr('value'));
+            tagOption.push(element);
+        });
+
+        //alert(tagOptionattr);
+
+
+        //for teacher
+        var tagOption1 = [];
+        var tagOptionattr1 = [];
+        $('#TeacherId option').each(function (index, element) {
+            tagOptionattr1.push($(this).attr('value'));
+            tagOption1.push(element);
+        });
+
+
+        //decoration
+
+
+        //===============
+
+
+        $(".drop-downTechId").on('change', function () {
+
+            var a = $('option:selected', $(this)).text();;
+            //alert(a);
+
+            $.ajax({
+                url: '@Url.Action("GetDropDownListSelectedData", "TeacherAssignment")?id=' + a,
+                type: 'GET',
+
+                success: function (result) {
+                    $('#CreditToBeTaken').val(result.t2);
+                    $('#RemainingCredit').val(result.t1);
+                    //  alert("here we" + result + "and" + $('#RemainingCredit').val());
+
+                }
+            });
+
+
+            var bb = $('option:selected', $(this)).text();
+            $.ajax({
+                url: '@Url.Action("GetDropDownListSelectedData4", "TeacherAssignment")?id=' + a,
+                type: 'GET',
+
+                success: function (result) {
+
+                    $('#CourseId').val("");
+                    $('#CourseId').text("");
+
+                    var i = 0;
+                    var optionhtml = '<option value="' + i + '"></option>';
+                    $("#CourseId").append(optionhtml);
+
+
+                    $.each(tagOption, function (ind3, res2) {
+
+                        var aa = true;
+
+                        $.each(result, function (ind4, res) {
+
+
+                            if (res == res2.textContent) {
+
+
+                                var optionhtml = '<option value="' + tagOptionattr[ind3] + '">' + res + '</option>';
+
+                                $("#CourseId").append(optionhtml)
+
+                            }
+
+                        });
+
+
+
+
+
+
+                    });
+                }
+            });
+
+            //add list to course ID
+
+            $("#Name").val("");
+            $("#Credit").val("");
+
+            // alert("askdjfl");
+        });
+
+
+        $(".drop-downCourseId").on('change', function () {
+
+
+
+
+            var a = $('option:selected', $(this)).text();;
+            //alert(a);
+
+            $.ajax({
+                url: '@Url.Action("GetDropDownListSelectedData3", "TeacherAssignment")?id=' + a,
+                type: 'GET',
+
+
+                success: function (result) {
+                    $('#Name').val(result.t3);
+                    $('#Credit').val(result.t1);
+                    //  alert("here we" + result + "and" + $('#RemainingCredit').val());
+
+                }
+            });
+
+            var creditVal = parseInt($("#Credit").val());
+            var Remaining = parseInt($("#RemainingCredit").val());
+
+            //            alert(creditVal + "  " + Remaining);
+
+
+            if (creditVal > Remaining) {
+                alert("Not enough Credit is Left");
+            }
+
+
+        });
+
+        $(".drop-downDptId").on('change', function () {
+
+
+            var a = $('option:selected', $(this)).text();;
+            //alert("asdfa");
+
+            $.ajax({
+                url: '@Url.Action("GetDropDownListSelectedData2", "TeacherAssignment")?id=' + a,
+                type: 'GET',
+                datatype: "json",
+
+
+                success: function (result) {
+                    //alert("asdfa "+result);
+
+
+                    $('#TeacherId').val("");
+                    $('#TeacherId').text("");
+
+
+                    var i = 0;
+                    var optionhtml = '<option value="' + i + '"></option>';
+
+
+                    $("#TeacherId").append(optionhtml);
+
+
+                    $.each(tagOption1, function (ind3, res2) {
+
+                        var aa = true;
+
+                        $.each(result, function (ind4, res) {
+                            //alert(res +"==="+res2.textContent);
+
+
+
+
+                            if (res == res2.textContent) {
+
+                                // alert(tagOptionattr1[ind3] + " wow " + res);
+
+                                var optionhtml = '<option value="' + tagOptionattr1[ind3] + '">' + res + '</option>';
+
+                                $("#TeacherId").append(optionhtml)
+
+                            }
+
+                        });
+
+                    });
+
+                }
+            });
+            // alert("askdjfl");
+        });
+
+    })
+</script>
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>TeacherAssignment</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DapartmentId, "Department", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*code edited here*@
+                @*@Html.DropDownList("DepartmentId", String.Empty)*@
+                @Html.DropDownListFor(model => model.DapartmentId
+                , (IEnumerable<SelectListItem>)ViewBag.DepartmentId
+                ,String.Empty
+                , new { @class = "drop-downDptId" })
+
+                @*  @Html.EditorFor(model => model.DapartmentId)*@
+                @Html.ValidationMessageFor(model => model.DapartmentId)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, "Teacher", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("TeacherId", String.Empty)*@
+
+                @Html.DropDownListFor(model => model.TeacherId,
+                    (IEnumerable<SelectListItem>)ViewBag.TeacherId,
+                    new { @class = "drop-downTechId" })
+
+
+                @Html.ValidationMessageFor(model => model.TeacherId)
+            </div>
+        </div>
+
+
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, "TeacherId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TeacherId", String.Empty)
+                @Html.ValidationMessageFor(model => model.TeacherId)
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.DapartmentId, "DapartmentId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DapartmentId", String.Empty)
+                @Html.ValidationMessageFor(model => model.DapartmentId)
+            </div>
+        </div>*@
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditToBeTaken, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreditToBeTaken)
+                @Html.ValidationMessageFor(model => model.CreditToBeTaken)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RemainingCredit, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RemainingCredit)
+                @Html.ValidationMessageFor(model => model.RemainingCredit)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "CourseId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("CourseId", String.Empty)*@
+                
+                @Html.DropDownListFor(model => model.CourseId
+                , (IEnumerable<SelectListItem>)ViewBag.CourseId
+                , String.Empty
+                , new { @class = "drop-downCourseId" })
+
+                
+                @Html.ValidationMessageFor(model => model.CourseId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Credit, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Credit)
+                @Html.ValidationMessageFor(model => model.Credit)
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
